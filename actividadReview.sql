@@ -27,7 +27,8 @@ SELECT * FROM students
 
 CREATE TABLE materials(
     id INT PRIMARY KEY AUTO_INCREMENT,
-    materia VARCHAR(45)
+    materia VARCHAR(45),
+    Foreign Key (id) REFERENCES students(id)
 )
 
 DROP TABLE materials
@@ -48,10 +49,6 @@ SELECT * FROM materials
 
 CREATE TABLE Notas (
     id INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
-    nombre VARCHAR(45),
-    apellido VARCHAR(45),
-    edad VARCHAR(20),
-    materia VARCHAR(45),
     nota DECIMAL (1,0),
     Foreign Key (id) REFERENCES students(id),
     Foreign Key (id) REFERENCES materials(id)
@@ -61,5 +58,5 @@ DROP TABLE Notas
 
 SELECT * FROM Notas
 
-INSERT INTO Notas (nota ) VALUES (4.6)
+INSERT INTO Notas (nota) VALUES (4.3)
 
