@@ -76,10 +76,10 @@ SELECT * FROM users WHERE apellidos LIKE '%Z' OR apellidos LIKE '%z'
 
 /* 16 ejercicio, Actualizar los usuarios que tengan 50 años de edad su nuevo genero musical sera NULL */
 
- 	/* moficiar la talba, una columna existente para determinarla NULL */
+ 	/* moficiar la tabla, una columna existente para determinarla NULL */
 ALTER TABLE users MODIFY COLUMN musica VARCHAR(200) NULL;
 
-UPDATE users SET musica = NULL WHERE edad = 50 /* actualizar null el genero de los personas de edad 50 */
+UPDATE users SET musica = NULL WHERE edad = 50 /* actualizar null, el genero de los personas de edad 50 */
 
 SELECT * FROM users WHERE edad = 50
 
