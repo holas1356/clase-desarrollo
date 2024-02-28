@@ -7,6 +7,7 @@ CREATE TABLE marcas (
 
 INSERT INTO marcas (marca) VALUES ('Chevrolet'), ('Nissan')
 
+/* referenciamos el id de la tabla fuerte, marca_id */
 CREATE TABLE tipo_vehiculo (
     id INT PRIMARY KEY AUTO_INCREMENT, tipo_vehiculo VARCHAR(45) NOT NULL, marcas_id INT
 )
@@ -22,6 +23,7 @@ CREATE TABLE colores (
 
 INSERT INTO colores (color) VALUES ('Amarillo'), ('Azul')
 
+/* referenciamos el id de las tablas fuertes, colores_id, tipo_vehiculo_id , tipo_vehiculo_marcas_id*/
 CREATE TABLE vehiculos (
     id INT PRIMARY KEY AUTO_INCREMENT, modelo INT(4), placa VARCHAR(10), colores_id INT, tipo_vehiculo_id INT, tipo_vehiculo_marcas_id INT
 )
@@ -33,6 +35,7 @@ VALUES (2008, 'SDW333'),
 
 SELECT * FROM vehiculos
 
+/* referenciamos las key foreing en las tablas necesarias */
 ALTER TABLE tipo_vehiculo
 ADD FOREIGN KEY (marcas_id) REFERENCES marcas (id)
 
@@ -42,6 +45,8 @@ ADD FOREIGN KEY (colores_id) REFERENCES colores (id)
 ALTER TABLE vehiculos
 ADD FOREIGN KEY (tipo_vehiculo_id) REFERENCES tipo_vehiculo (id)
 
+
+/* se realiza inner join para relacionar tablas con otras y traer los datos  */
 SELECT *
 FROM vehiculos
     INNER JOIN colores
