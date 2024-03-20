@@ -1,8 +1,10 @@
 const express = require('express');
 const router = express.Router();
 const studentController = require('../controllers/studentController')
+
+const auth = require("../middleware/auth")
 /* obtener todos los estudiantes */
-router.get('/api/v1/students', studentController.getAllStudents);
+router.get('/api/v1/students', auth.authenticate(), studentController.getAllStudents);
 /* crear un estudiante */
 router.post('/api/v1/students/create', studentController.createStudent)
 /* obtener la nota de un estudiante por su id */
@@ -11,6 +13,10 @@ router.get('/api/v1/students/id/:id', studentController.getStudent)
 router.get('/api/v1/students/nota/:nota', studentController.getNotesStudents)
 /* obtener el listado solo de las notas */
 router.get('/api/v1/notas', studentController.getNotasEstudiantes)
+/* para registrar los estudiantes */
+router.post('/register',studentController.register)
+/* para que se puedan loguear los estudiantes */
+router.post('/login',studentController.login)
 
 
 module.exports = router;

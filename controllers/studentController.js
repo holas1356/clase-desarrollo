@@ -1,4 +1,7 @@
-const Estudiante = require('../models/studentModel')
+const Estudiante = require('../models/studentModel');
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
+const jwt_secret = "dfjdkfdjf#$#4";
 
 const studentController = {
     /* obtener todos los estudiantes */
@@ -59,7 +62,46 @@ const studentController = {
             console.error('Error al buscar las notas: ', nota, error);
             res.status(500).json({message: 'Internal Server Error'})
         }
-    }
+    },
+    register: async(req, res) => {
+        try {
+            const students = await Estudiante.find;
+
+            const {nombre,materia,nota} = req.body;
+            const studentData = {
+                userid: students.length+1,
+                nombre: nombre,
+                materia: materia,
+                nota: await bcrypt.hash(nota,10)//encriptacion de contraseña por medio de bcrypt
+            };
+            const newStudent = new Estudiante(studentData);
+            const savedStudent = await newStudent.save();
+            res.status(201).json(savedStudent);
+        } catch (error) {
+            console.error('Error al registrar el estudiante:', error);
+            res.status(500).json({ message: 'Internal Server Error' });
+        }
+    },
+    login: async(req, res) => {
+        try {
+            const {nombre,nota} = req.body
+            const student = await Estudiante.find({nombre:nombre})
+
+            if(!student){
+                return res.status(400).json({message: 'Invalid username or password'});
+            }
+
+            const isPasswordValid = await bcrypt.compare(nota, student[0].nota);
+
+            const token = jwt.sign({userid:student.id },jwt_secret,{
+                expiresIn: "1h"
+            })
+            res.json({message: 'Logged in succesfully',token})
+        } catch (error) {
+            console.error('Error al loguear el estudiante:', error);
+            res.status(500).json({ message: 'Internal Server Error' });
+        }
+    }
 }
 
 module.exports = studentController;
